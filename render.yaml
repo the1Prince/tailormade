@@ -7,7 +7,7 @@ services:
   - type: web
     name: tailormade-api
     runtime: node
-    region: oregon
+    
 
     rootDir: backend
     buildCommand: npm install
@@ -31,7 +31,7 @@ services:
   - type: web
     name: tailormade-admin
     runtime: static
-    region: oregon
+    
 
     rootDir: admin-web
     buildCommand: npm install && npm run build

@@ -31,7 +31,7 @@ services:
   - type: web
     name: tailormade-admin
     runtime: static
-    region: oregon
+    
 
     rootDir: admin-web
     buildCommand: npm install && npm run build

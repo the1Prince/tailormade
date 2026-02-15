@@ -1,0 +1,49 @@
+# TailorMade – Render Blueprint
+# Deploy: connect this repo in Render Dashboard and use "Blueprint" to create both services.
+# Set env vars in Dashboard (see README).
+
+services:
+  # Backend API (Node.js)
+  - type: web
+    name: tailormade-api
+    runtime: node
+    region: oregon
+
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRE
+        value: 7d
+      - key: ADMIN_WEB_URL
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+  # Admin dashboard (static site)
+  - type: web
+    name: tailormade-admin
+    runtime: static
+    region: oregon
+
+    rootDir: admin-web
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+
+    # Set VITE_API_URL in Render Dashboard to your API URL, e.g. https://tailormade-api.onrender.com/api
+    envVars:
+      - key: VITE_API_URL
+        sync: false
+
+    # SPA: serve index.html for client-side routes
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

@@ -23,7 +23,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   const login = async (usernameOrEmail, password) => {
-    const { data } = await api.post('/auth/login', { usernameOrEmail, password });
+    const { data } = await api.post('/auth/login', { usernameOrEmail, password }, { withCredentials: true });
     if (data.user.role !== 'admin') throw new Error('Admin access only');
     localStorage.setItem('tailormade_admin_token', data.token);
     setUser(data.user);
